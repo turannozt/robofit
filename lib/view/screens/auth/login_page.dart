@@ -1,9 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:work_out/config/show_delay_mixin.dart';
 import 'package:work_out/config/text.dart';
 import 'package:work_out/controller/authControllers/login_controller/extensions/login_with_account.dart';
+import 'package:work_out/view/screens/auth/sign_up_antranor.dart';
 import 'package:work_out/view/widgets/general_widgets/screen_background_image.dart';
 
 import '../../../controller/authControllers/login_controller/login_controller.dart';
@@ -14,8 +17,7 @@ import '../../widgets/general_widgets/mainScreenTitle.dart';
 import '../../widgets/general_widgets/text field.dart';
 import '../../widgets/general_widgets/titleWithDescription.dart';
 import 'sign_up_page.dart';
-import 'forgotPassword.dart';
-
+//giriş ekranı
 class LoginPage extends GetView<LoginController> with DelayHelperMixin {
   LoginPage({super.key});
   @override
@@ -124,6 +126,7 @@ class LoginPage extends GetView<LoginController> with DelayHelperMixin {
                                       .loginPasswordController.text
                                       .trim(),
                                 );
+                                
                               },
                               isRounded: false,
                               text: capitalize(AppTexts.login),
@@ -137,10 +140,24 @@ class LoginPage extends GetView<LoginController> with DelayHelperMixin {
                             delay: getDelayDuration(),
                             child: CustomButton(
                               onPressed: () {
-                                Get.to(() => SignUpPage());
+                                Get.toNamed("/signUp");
                               },
                               isRounded: false,
                               text: capitalize(AppTexts.signUp),
+                              isOutlined: true,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          DelayedDisplay(
+                            delay: getDelayDuration(),
+                            child: CustomButton(
+                              onPressed: () {
+                                Get.toNamed("/signUpAntranor");
+                              },
+                              isRounded: false,
+                              text: capitalize('Antrenör Kayıt'),
                               isOutlined: true,
                             ),
                           ),

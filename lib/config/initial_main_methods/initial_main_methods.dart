@@ -2,19 +2,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// Firebase projenizin özel ayarlarını içeren dosya
 import '../../firebase_options.dart';
 
+// Uygulama başlangıcı için genel metotlar
 class MainMethods {
+  // Uygulama başlatma işlemlerini gerçekleştiren statik bir metot
   static Future<void> init() async {
-    // init binding
+    // Flutter binding'ini başlat
     WidgetsFlutterBinding.ensureInitialized();
 
-    // init firebase
+    // Firebase'in başlatılması
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    // set the orientation to portrait only (there is no need for landscape)
+    // Ekran yönlendirmesini sadece portre moduna ayarla
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

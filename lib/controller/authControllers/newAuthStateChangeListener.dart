@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:work_out/view/screens/auth/EmailVerification.dart';
@@ -6,23 +8,23 @@ import 'package:work_out/view/screens/welcome/welcome_page.dart';
 import '../../view/screens/homepage/homePage.dart';
 
 class NewAuthStateChangeListener extends GetxController {
-  // Instance of the FirebaseAuth
+  // FirebaseAuth örneği
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // An observable that can bu null
+  // Null olabilen gözlemlenebilir bir Rxn<User?>
   Rxn<User?> user = Rxn<User?>(null);
 
-  // Auth state handler
-  handleTheUserState(User? user) {
+  // Kullanıcı durumu işleyici
+  void handleTheUserState(User? user) {
     if (user == null) {
-      // print("no user / user is signed out");
+      // Kullanıcı yok / kullanıcı oturumu kapatılmış
       Get.offAll(WelcomePage());
     } else {
       if (!user.emailVerified) {
-        // print("user is signed in but not verified");
+        // Kullanıcı oturum açtı ancak e-posta doğrulanmadı
         Get.offAll(EmailVerificatioPage());
       } else {
-        // print("user is signed in");
+        // Kullanıcı oturum açtı
         Get.offAll(HomePage());
       }
     }
@@ -30,8 +32,10 @@ class NewAuthStateChangeListener extends GetxController {
 
   @override
   void onReady() {
+    // user'ı izle ve değişiklik olduğunda handleTheUserState fonksiyonunu çağır
     ever(user, handleTheUserState);
 
+    // user'ı _auth.authStateChanges() akışına bağla
     user.bindStream(_auth.authStateChanges());
     super.onReady();
   }

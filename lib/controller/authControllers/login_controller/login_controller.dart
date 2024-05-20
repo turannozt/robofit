@@ -5,27 +5,25 @@ import 'package:work_out/controller/authControllers/login_controller/extensions/
 import '../../functionsController/dialogsAndLoadingController.dart';
 
 class LoginController extends GetxController {
-  // Inputs controllers
+  // Giriş bilgileri için text editing controller'ları
   late TextEditingController loginEmailController;
   late TextEditingController loginPasswordController;
 
-  // Depen. injection
+  // Bağımlılık enjeksiyonu
   DialogsAndLoadingController dialogsAndLoadingController = Get.find();
 
-// TODO: implement show/hide for the password field
-//   // showPassword(bool obscureText) {
-//   //   obscureText = false;
-//   //   update();
-//   // }
+  // Şifre alanının gösterilip gizlenmesini yöneten bir metot eklenebilir
 
   @override
   void onInit() {
+    // Text editing controller'ları başlatma işlemi
     initializeTextEditingControllers();
     super.onInit();
   }
 
   @override
   void onClose() {
+    // Text editing controller'ları yok etme (dispose) işlemi
     disposeTextEditingControllers();
     super.onClose();
   }

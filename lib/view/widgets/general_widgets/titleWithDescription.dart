@@ -30,7 +30,7 @@ class TitleWithDescription extends StatelessWidget {
               text: description,
               style: const TextStyle(
                 letterSpacing: 0,
-                fontSize: 14,
+                fontSize: 16,
                 color: Colors.white,
               ),
             ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class IamTitle extends StatelessWidget {
-  const IamTitle({Key? key, required this.text}) : super(key: key);
+  const IamTitle({super.key, required this.text});
   final String text;
   @override
   Widget build(BuildContext context) {
     return Text(
-      "I'm \n$text",
+      "En İyi \n$text",
       style: TextStyle(
         fontSize: 28,
         fontWeight: FontWeight.bold,

@@ -10,12 +10,13 @@ import '../../../../../view/screens/auth/EmailVerification.dart';
 import '../../sign_up_controller.dart';
 
 extension CreateNewAccExtension on SignUpController {
-  
-  /// create new account in firebase auth, then add the  extra information such as credential, uid, time of creation, email verification status..
+  /// Firebase auth üzerinde yeni bir hesap oluşturur, ardından kimlik bilgilerini, uid'yi, oluşturma zamanını, e-posta doğrulama durumunu vb. ek bilgileri ekler.
   Future<void> createNewAccount({
     required String email,
     required String password,
     required String username,
+    required String name,
+    required String role,
   }) async {
     if (email.isValidEmail &&
         password.isValidPassword &&
@@ -23,25 +24,30 @@ extension CreateNewAccExtension on SignUpController {
       try {
         dialogsAndLoadingController.showLoading();
 
-        // Firebase create account method, store the credential
+        // Firebase hesap oluşturma yöntemi, kimlik bilgisini saklar
         final UserCredential credential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        // Here we created acc with firebase auth, the email and password only,  to collect and use more data, we need to store it
+        // Burada sadece e-posta ve şifre ile Firebase auth ile hesap oluşturduk, daha fazla veri toplamak ve kullanmak için bunu saklamamız gerekiyor
         addUserInformationToFirestore(
+          role: role,
+          name: name,
           credential: credential,
           email: email,
           username: username,
           isEmailVerified: FirebaseAuth.instance.currentUser!.emailVerified,
           uid: credential.user!.uid,
           profileImgPath: "",
+          boy: "0",
+          kilo: "0",
+          yas: "0",
           // password: password,
         );
 
-        // On sign up, we should verify our user email (no need to unnecessary checks)
+        // Hesap oluşturulduğunda, kullanıcı e-posta adresini doğrulamalıyız (gereksiz kontrol gereksizdir)
         Get.to(() => EmailVerificatioPage());
       } on FirebaseAuthException catch (e) {
         Get.back();
@@ -55,7 +61,7 @@ extension CreateNewAccExtension on SignUpController {
       }
     }
 
-    // Now, if something isn't valid, inform user about it
+    // Şimdi, eğer bir şey geçerli değilse, kullanıcıya bilgi verin
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
       dialogsAndLoadingController.showError(
         capitalize(

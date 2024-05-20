@@ -11,7 +11,7 @@ import '../../../helpers/string_methods.dart';
 import '../../widgets/general_widgets/mainScreenTitle.dart';
 import '../../widgets/general_widgets/titleWithDescription.dart';
 import 'componenets/get_started_cards_scroll_view.dart';
-
+// başlangıç ekranı
 class GetStartedPage extends GetView<GetStartedController>
     with DelayHelperMixin {
   GetStartedPage({Key? key}) : super(key: key);
@@ -80,6 +80,9 @@ class GetStartedPage extends GetView<GetStartedController>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/signUp");
+                            },
                             child: Text(
                               capitalize(AppTexts.skipIntro),
                               style: TextStyle(
@@ -115,8 +118,7 @@ class GetStartedPage extends GetView<GetStartedController>
                                       style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 20,
-                                        ),
-                                        primary: Theme.of(context).primaryColor,
+                                        ), backgroundColor: Theme.of(context).primaryColor,
                                       ),
                                       onPressed: controller
                                               .hasUserChooserAtLeastOneChoice

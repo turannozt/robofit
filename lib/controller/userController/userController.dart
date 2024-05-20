@@ -18,22 +18,26 @@ class UserInformationController extends GetxController {
 
   // Variables
   // Username if some problem happened getting the username from user himself
-  late RxString username = "Anonym user".obs;
+  late RxString username = "Anonym username".obs;
+  late RxString name = "Name".obs;
+  late RxString mail = "Mail".obs;
+  late RxString role = "role".obs;
+  late RxString uid = "uid".obs;
+
+  late RxString boy = "boy".obs;
+  late RxString kilo = "kilo".obs;
+  late RxString yas = "yas".obs;
 
   // Default img url
   RxString userProfileImg =
       "https://www.pngall.com/wp-content/uploads/12/Avatar-Profile.png".obs;
 
-// profile img path getted from firestore
   String? newGettedPath;
 
-  // firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // firebase auth instance
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // storage instance
   final storage = FirebaseStorage.instance;
 
   // ImgPicker instance
@@ -43,7 +47,7 @@ class UserInformationController extends GetxController {
   setUsername() async {
     // Assign getted username from firestore to username variable
     username.value = await _firestore
-        .collection("aboutUsers")
+        .collection("users")
         .doc(_auth.currentUser!.uid)
         .get()
         .then(
@@ -51,16 +55,94 @@ class UserInformationController extends GetxController {
         );
   }
 
-  Future<String> getProfileImgPathFromFirestore() async {
-    return await _firestore
-        .collection("aboutUsers")
+  setName() async {
+    // Assign getted name from firestore to name variable
+    name.value = await _firestore
+        .collection("users")
         .doc(_auth.currentUser!.uid)
         .get()
         .then(
-          (value) => value["profileImgPath"],
+          (value) => value["fullName"],
+        );
+  }
+
+  setBoy() async {
+    // Assign getted name from firestore to name variable
+    boy.value = await _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then(
+          (value) => value["boy"],
+        );
+  }
+
+  setKilo() async {
+    // Assign getted name from firestore to name variable
+    kilo.value = await _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then(
+          (value) => value["kilo"],
+        );
+  }
+
+  setYas() async {
+    // Assign getted name from firestore to name variable
+    yas.value = await _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then(
+          (value) => value["yas"],
+        );
+  }
+
+  setUid() async {
+    // Assign getted name from firestore to name variable
+    uid.value = await _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then(
+          (value) => value["uid"],
+        );
+  }
+
+  setRole() async {
+    // Assign getted name from firestore to name variable
+    role.value = await _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then(
+          (value) => value["role"],
+        );
+  }
+
+  setMail() async {
+    // Assign getted name from firestore to name variable
+    mail.value = await _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then(
+          (value) => value["email"],
+        );
+  }
+
+  Future<String> getProfileImgPathFromFirestore() async {
+    return await _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then(
+          (value) => value["profilePic"],
         ) as String;
   }
 
+//profil yolunu ayarlama
   setProfileImgPath() async {
     // Set the getted profile img path from firestore to newGettedPath variable
     newGettedPath = await getProfileImgPathFromFirestore();
@@ -75,6 +157,7 @@ class UserInformationController extends GetxController {
     }
   }
 
+//kamerya erişim
   Future<XFile?> getImgFromCamera() async {
     // Get img from camera
     XFile? image = await picker.pickImage(source: ImageSource.camera);
@@ -90,243 +173,262 @@ class UserInformationController extends GetxController {
     // Show error if there is no img
     dialogsAndLoadingController.showError(
       capitalize(
-        "operation canceled",
+        "işlem iptal edildi",
       ),
     );
     return null;
   }
 
+// resim fonksiyonu
   Future<XFile?> getImgFromDevice() async {
-    // Get img from device
     XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    // Check if there is img
     bool isImgPicked = image != null;
 
-    // Check if there is img
     if (isImgPicked) {
       return image;
     }
     dialogsAndLoadingController.showError(
       capitalize(
-        "operation canceled",
+        "işlem iptal edildi",
       ),
     );
     return null;
   }
 
-  // Update profile img path to firestore
+  // profil resmi güncelle
   updateProfile(XFile? image) async {
-    // Check if there is img
     bool isImgPickedFromDeviceOrCamera = image != null;
 
-    // FB storage reference
     final Reference userProfileImgReference =
         storage.ref("usersProfileImgs/${_auth.currentUser!.uid}");
 
     late String imageDownloadURL;
     //
     if (isImgPickedFromDeviceOrCamera) {
-      // set the file with image path
       File imgFile = File(image.path);
 
       try {
-        // Show loading
         dialogsAndLoadingController.showLoading();
 
-        // Upload img to firebase storage
         await userProfileImgReference.putFile(imgFile);
 
-        // Get the download url of the img
         imageDownloadURL = await userProfileImgReference.getDownloadURL();
 
-        // Update it in firestore
         await _firestore
-            .collection("aboutUsers")
+            .collection("users")
             .doc(_auth.currentUser!.uid)
             .update({
-          "profileImgPath": imageDownloadURL,
+          "profilePic": imageDownloadURL,
         });
 
-        // update it in app
         userProfileImg.value = imageDownloadURL;
 
-        // pop loading
         Get.back();
 
-        // show success msg to user
         dialogsAndLoadingController.showSuccess(
           capitalize(
-            "profile image updated successfully",
+            "profil resmi başarıyla güncellendi",
           ),
         );
       } on firebasecore.FirebaseException catch (e) {
-        // On Error, pop first loading
         Get.back();
 
-        // Then show it to user (you can here set case for each error type, (in case you want to help, set some if checks here))
         dialogsAndLoadingController.showError("$e");
       }
     } else {
-      // Show error if there is no img (not necessary to show it to user)
       print("canceled");
     }
   }
 
-  // Update username in firestore and set new one in the view (lifecycle)
+  // kullanıcı adı güncelle
   updateUsername(String newUsername) async {
-    // Show loading
     dialogsAndLoadingController.showLoading();
 
-    /// checks on String is necessary to avoid weird results
     try {
-      // Update username in firestore
-      await _firestore
-          .collection("aboutUsers")
-          .doc(_auth.currentUser!.uid)
-          .update({
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).update({
         "username": newUsername,
       });
 
-      // Pop loading
       Get.back();
 
-      // Username is observable (.obs) changing it's value change it also in the UI
       username.value = newUsername;
 
-      // Show success msg to user
       dialogsAndLoadingController
-          .showSuccess(capitalize("username updates successfully"));
+          .showSuccess(capitalize("kullanıcı adı başarıyla güncellendi"));
     } on FirebaseException catch (e) {
-      /// Need more checks
-      // Show error to user
       dialogsAndLoadingController.showError("${e.message}");
     }
   }
 
-  // Update login email with FirebaseAuth
-  updateEmail(String newEmail) async {
-    // Show loading
+  // Boy güncelle
+  updateBoy(String newBoy) async {
     dialogsAndLoadingController.showLoading();
 
     try {
-      // Update email in firebase auth
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).update({
+        "boy": newBoy,
+      });
+
+      Get.back();
+
+      boy.value = newBoy;
+
+      dialogsAndLoadingController
+          .showSuccess(capitalize("Boyunuz başarıyla güncellendi"));
+    } on FirebaseException catch (e) {
+      dialogsAndLoadingController.showError("${e.message}");
+    }
+  }
+
+  // Kilo güncelle
+  updateKilo(String newKilo) async {
+    dialogsAndLoadingController.showLoading();
+
+    try {
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).update({
+        "kilo": newKilo,
+      });
+
+      Get.back();
+
+      kilo.value = newKilo;
+
+      dialogsAndLoadingController
+          .showSuccess(capitalize("Kilonuz başarıyla güncellendi"));
+    } on FirebaseException catch (e) {
+      dialogsAndLoadingController.showError("${e.message}");
+    }
+  }
+
+  // Yaş güncelle
+  updateYas(String newYas) async {
+    dialogsAndLoadingController.showLoading();
+
+    try {
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).update({
+        "yas": newYas,
+      });
+
+      Get.back();
+
+      yas.value = newYas;
+
+      dialogsAndLoadingController
+          .showSuccess(capitalize("Yaşınız başarıyla güncellendi"));
+    } on FirebaseException catch (e) {
+      dialogsAndLoadingController.showError("${e.message}");
+    }
+  }
+
+  updateName(String newName) async {
+    dialogsAndLoadingController.showLoading();
+
+    try {
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).update({
+        "fullName": newName,
+      });
+
+      Get.back();
+
+      username.value = newName;
+
+      dialogsAndLoadingController
+          .showSuccess(capitalize("Adınız başarıyla güncellendi"));
+    } on FirebaseException catch (e) {
+      dialogsAndLoadingController.showError("${e.message}");
+    }
+  }
+
+  // email güncelle
+  updateEmail(String newEmail) async {
+    dialogsAndLoadingController.showLoading();
+
+    try {
       await _auth.currentUser!.updateEmail(newEmail);
 
-      // updating data in firestore
       // ! after next opening of the app it'll demand to verify new email
-      await _firestore
-          .collection("aboutUsers")
-          .doc(_auth.currentUser!.uid)
-          .update({
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).update({
         "email": newEmail,
         "verified": _auth.currentUser!.emailVerified,
       });
-      // pop loading
       Get.back();
 
-      // Show success msg to user
       dialogsAndLoadingController.showSuccess(
         capitalize(
-          "email updates successfully",
+          "e-posta güncellemeleri başarıyla",
         ),
       );
     } on FirebaseAuthException catch (e) {
-      // pop loading
       Get.back();
 
-      // Firebase rules: if you want to update it, you should re-login to verify that your the owner, you can do it programitically, re-autenticate and u^date it without letting user to know, but since it make since to ask a to re-auth
       if (e.code == 'requires-recent-login') {
         dialogsAndLoadingController.showConfirmWithActions(
-            "due to safety reasons, you need a recent re-login to your account in order to get permission to change email",
+            "Güvenlik nedeniyle, e-postayı değiştirme izni almak için hesabınıza yakın zamanda yeniden giriş yapmanız gerekiyor",
             capitalize("re-login"), () {
           _auth.signOut();
         });
       } else {
-        // Show other error to user if happened
         dialogsAndLoadingController.showError(e.toString());
       }
     }
   }
 
-// Update password with FirebaseAuth and update it in firestore
+// şifre güncelle
   updatePassword(String newPassword) async {
-    // Show loading
     dialogsAndLoadingController.showLoading();
     try {
-      // Update password in firebase auth
       await _auth.currentUser!.updatePassword(newPassword);
 
-      // Update it in firestore
-      await _firestore
-          .collection("aboutUsers")
-          .doc(_auth.currentUser!.uid)
-          .update({
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).update({
         "password": newPassword,
       });
 
-      // Pop loading
       Get.back();
 
-      // Show success msg to user
       dialogsAndLoadingController.showSuccess(
         capitalize(
-          "password updates successfully",
+          "şifre güncellemeleri başarıyla",
         ),
       );
     } on FirebaseAuthException catch (e) {
-      // Pop loading
       Get.back();
 
-      // Same as above updateEmail method
       if (e.code == 'requires-recent-login') {
         dialogsAndLoadingController.showConfirmWithActions(
-            "due to safety reasons, you need a recent re-login to your account in order to get permission to change password",
+            "Güvenlik nedenlerinden dolayı, şifre değiştirme izni almak için hesabınıza yakın zamanda yeniden giriş yapmanız gerekmektedir.",
             capitalize("re-login"), () {
           _auth.signOut();
         });
-      }
-      // other checks
-      else if (e.code == 'weak-password') {
-        dialogsAndLoadingController
-            .showError(capitalize("weak password"));
+      } else if (e.code == 'weak-password') {
+        dialogsAndLoadingController.showError(capitalize("zayıf şifre"));
       } else {
         dialogsAndLoadingController.showError(e.toString());
       }
     }
   }
 
-  // Delete user
+  // Kullanıcı Sil
   deleteUser() async {
-    // Show loading
     dialogsAndLoadingController.showLoading();
     try {
-      // Delete user from firebase auth
       await _auth.currentUser?.delete();
 
-      // user will be sign out (returned to home screen), then be deleted from firebase auth
-
-      /// Delete user from firestore (to-do)
-
-      // show success msg to user
-      dialogsAndLoadingController
-          .showSuccess(capitalize("user deleted"));
+      dialogsAndLoadingController.showSuccess(capitalize("kullanıcı silindi"));
     } on FirebaseException catch (e) {
-      // pop loading
       Get.back();
 
 // Same as above updateEmail method
       if (e.code == 'requires-recent-login') {
         dialogsAndLoadingController.showConfirmWithActions(
-            "due to safety reasons, you need a recent re-login to your account in order to get permission to change password",
+            "Güvenlik nedenlerinden dolayı, şifre değiştirme izni almak için hesabınıza yakın zamanda yeniden giriş yapmanız gerekmektedir.",
             capitalize("re-login"), () {
           _auth.signOut();
         });
       }
       // Other checks
       else if (e.code == 'weak-password') {
-        dialogsAndLoadingController
-            .showError(capitalize("weak password"));
+        dialogsAndLoadingController.showError(capitalize("zayıf şifre"));
       } else {
         dialogsAndLoadingController.showError(e.toString());
       }
@@ -337,6 +439,13 @@ class UserInformationController extends GetxController {
   void onInit() {
     setUsername();
     setProfileImgPath();
+    setMail();
+    setName();
+    setRole();
+    setUid();
+    setBoy();
+    setKilo();
+    setYas();
     super.onInit();
   }
 }

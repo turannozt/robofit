@@ -27,7 +27,7 @@ extension ErrorCasesHandler on SignUpController {
     }
   }
 
-  /// Shows error dialog for handled exception, set showErrorDialogOnUnhandledError to false to show nothing for unhandled firebase error
+  /// Handled exception için hata ile ilgili dialogu gösterir, showErrorDialogOnUnhandledError'ı false olarak ayarlayarak işlenmeyen firebase hatası için hiçbir şey göstermemek için kullanılır.
   void Function(FirebaseAuthException) get handleErrorCases =>
       _handleErrorCases;
 }

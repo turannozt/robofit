@@ -10,7 +10,7 @@ import '../../../helpers/string_methods.dart';
 import '../../widgets/general_widgets/button.dart';
 import '../../widgets/general_widgets/text field.dart';
 import '../../widgets/general_widgets/titleWithDescription.dart';
-
+//şifre sıfırlama
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({Key? key}) : super(key: key);
   //depend. injection

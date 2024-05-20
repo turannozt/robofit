@@ -8,9 +8,9 @@ import 'package:work_out/view/widgets/general_widgets/button.dart';
 
 import '../../../controller/authControllers/emailVerficationController.dart';
 import '../../../helpers/string_methods.dart';
-
+//e mail doğrulama
 class EmailVerificatioPage extends StatelessWidget {
-  EmailVerificatioPage({Key? key}) : super(key: key);
+  EmailVerificatioPage({super.key});
   //depend. injection
   final FunctionsController controller = Get.put(FunctionsController());
   final EmailVerificatioController emailVerificatioController =
@@ -33,7 +33,7 @@ class EmailVerificatioPage extends StatelessWidget {
                 onPressed: () {
                   signOutController.signOut();
                 },
-                child: const Text("sign out test"),
+                child: const Text("çıkış testi"),
               ),
               const Spacer(),
               Container(

@@ -4,9 +4,9 @@ import '../../../config/images sources.dart';
 
 class BackgroundImage extends StatelessWidget {
   const BackgroundImage({
-    Key? key,
+    super.key,
     this.backgroundImage,
-  }) : super(key: key);
+  });
 
   
   final String? backgroundImage;

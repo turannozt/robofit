@@ -1,5 +1,6 @@
-// Search filter options
+// Arama filtresi seçenekleri
 
+// filtersItemsFromFile adlı liste, arama filtresi seçeneklerini içerir.
 List filtersItemsFromFile = [
   {
     "isChecked": false,

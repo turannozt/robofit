@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:work_out/view/screens/auth/sign_up_antranor.dart';
 import 'package:work_out/view/screens/auth/sign_up_page.dart';
 import 'package:work_out/view/screens/welcome/welcome_page.dart';
 
@@ -11,8 +12,9 @@ import '../view/screens/Get started/get_started_page.dart';
 import '../view/screens/auth/forgotPassword.dart';
 import '../view/screens/auth/login_page.dart';
 
-// To-do: add routes to all screens, ad make the change over the screens
+// Ekran rotalarını ve bu rotalara bağlı Binding sınıflarını içeren sınıf
 class Routes {
+  // Rotaların listesi
   static final List<GetPage> pages = [
     GetPage(
       name: "/",
@@ -27,6 +29,11 @@ class Routes {
     GetPage(
       name: "/signUp",
       page: () => SignUpPage(),
+      binding: SignUpBinding(),
+    ),
+    GetPage(
+      name: "/signUpAntranor",
+      page: () => SignUpPageAntranor(),
       binding: SignUpBinding(),
     ),
     GetPage(

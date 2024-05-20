@@ -1,11 +1,14 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:work_out/bindings/initial_binding.dart';
 import 'package:work_out/config/Themes/mainThemeFile.dart';
 import 'package:work_out/config/initial_main_methods/initial_main_methods.dart';
 import 'config/routes.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await MainMethods.init();
   runApp(
     const WorkoutApp(),

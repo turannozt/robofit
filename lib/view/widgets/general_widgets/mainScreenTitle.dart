@@ -24,7 +24,7 @@ class MainScreenTitle extends StatelessWidget {
             color: mainWordColor ?? Theme.of(context).primaryColor,
           ),
           children: [
-            const TextSpan(text: " "),
+            const TextSpan(text: ""),
             TextSpan(
               text: secondaryWord.toUpperCase(),
               style: TextStyle(

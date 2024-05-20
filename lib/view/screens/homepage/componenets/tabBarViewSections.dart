@@ -54,9 +54,12 @@ class TabBarViewSection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white.withOpacity(.1),
                   ),
-                  child: Text(
-                    capitalize(AppTexts.seeAll),
-                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      capitalize(AppTexts.seeAll),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
                   ),
                 ),
               ),

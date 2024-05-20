@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:work_out/config/Colors.dart';
 
 class DialogsAndLoadingController extends GetxController {
-  // Loading dialog
+  // Yükleniyor diyalogu
   showLoading() {
     Get.defaultDialog(
       title: "",
@@ -17,7 +17,7 @@ class DialogsAndLoadingController extends GetxController {
     );
   }
 
-  // dialog with Confirm
+  // Onaylı işlemler içeren diyalog
   showConfirmWithActions(
     String infoText,
     String actionButtonText,
@@ -50,7 +50,7 @@ class DialogsAndLoadingController extends GetxController {
         actions: [
           TextButton(
             child: const Text(
-              "Cancel",
+              "Geri",
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
@@ -67,7 +67,7 @@ class DialogsAndLoadingController extends GetxController {
         ]);
   }
 
-  // Error dialog
+  // Hata diyalogu
   showError(String errorText) {
     Get.defaultDialog(
         title: "",
@@ -95,7 +95,7 @@ class DialogsAndLoadingController extends GetxController {
         ));
   }
 
-  // Success Dialog
+  // Başarı diyalogu
   showSuccess(String successText) {
     Get.defaultDialog(
       title: "",

@@ -1,29 +1,30 @@
+// ignore_for_file: file_names
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../functionsController/dialogsAndLoadingController.dart';
 
 class SignOutController extends GetxController {
-  // Dependency injection
+  // Bağımlılık enjeksiyonu
   DialogsAndLoadingController dialogsAndLoadingController =
       Get.put(DialogsAndLoadingController());
 
-  // Sign out from app
+  // Uygulamadan çıkış yapma
   signOut() async {
-    //
     try {
-      // Show loading
+      // Yükleniyor göster
       dialogsAndLoadingController.showLoading();
 
-      // Sign out method
+      // Çıkış yapma metodu
       await FirebaseAuth.instance.signOut();
 
-      // no need for pop because the AuthStateController will do it's work if it's successfully done
+      // Başarılı olduğunda AuthStateController'ın işini yapması için pop'a gerek yoktur
     } on FirebaseAuthException catch (e) {
-      // else, first pop
+      // Hata durumunda önce pop yap
       Get.back();
 
-      // show error to user
+      // Kullanıcıya hatayı göster
       dialogsAndLoadingController.showError("Error: ${e.code}");
     }
   }

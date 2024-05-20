@@ -1,6 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:work_out/admob/service.dart';
 import 'package:work_out/controller/functionsController.dart';
 import 'package:work_out/config/Colors.dart';
 import 'package:work_out/config/text.dart';
@@ -12,11 +16,28 @@ import '../homepage/componenets/tabBarViewSections.dart';
 import '../user profile/userProfil.dart';
 import 'components/mainWorkoutCard.dart';
 
-class AllWorkoutsPage extends StatelessWidget {
-  AllWorkoutsPage({Key? key, this.dataList}) : super(key: key);
+//bütün antrenmanlar
+class AllWorkoutsPage extends StatefulWidget {
+  AllWorkoutsPage({super.key, this.dataList});
   List? dataList;
+
+  @override
+  State<AllWorkoutsPage> createState() => _AllWorkoutsPageState();
+}
+
+class _AllWorkoutsPageState extends State<AllWorkoutsPage> {
   final FunctionsController controller = Get.put(FunctionsController());
+
   final userInformationController = Get.put(UserInformationController());
+
+  final GoogleAds _googleAds = GoogleAds();
+  @override
+  void initState() {
+    _googleAds.loadBannerAd(adLoaded: () => setState(() {}));
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +85,16 @@ class AllWorkoutsPage extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
+            if (_googleAds.bannerAd != null)
+              SizedBox(
+                width: 468,
+                height: 60,
+                child: AdWidget(ad: _googleAds.bannerAd!),
+              )
+            else
+              Container(),
             const SizedBox(
-              height: 40,
+              height: 10,
             ),
             DelayedDisplay(
               delay: Duration(milliseconds: delay + 100),
@@ -105,22 +134,6 @@ class AllWorkoutsPage extends StatelessWidget {
             ),
             DelayedDisplay(
               slidingBeginOffset: const Offset(0.0, 0.1),
-              delay: Duration(milliseconds: delay + 100),
-              child: TabBarViewSection(
-                itemsToShow: WorkoutsList.allWorkoutsList.length,
-                title: capitalize(
-                  AppTexts.withDiscounts,
-                ),
-                dataList: controller.filteredListwith(
-                    Get.arguments[1], "isDiscounted", "true"),
-                hasSeeAllButton: false,
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            DelayedDisplay(
-              slidingBeginOffset: const Offset(0.0, 0.1),
               delay: Duration(milliseconds: delay + 200),
               child: MainWorkoutCard(
                 isFavortite: false,
@@ -150,6 +163,29 @@ class AllWorkoutsPage extends StatelessWidget {
                     Get.arguments[1], "dailyFreeWorkout", "true")["setsNumber"],
                 reviews: controller.filterWorkoutWith(
                     Get.arguments[1], "dailyFreeWorkout", "true")["reviews"],
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            DelayedDisplay(
+              slidingBeginOffset: const Offset(0.0, 0.1),
+              delay: Duration(milliseconds: delay + 200),
+              child: MainWorkoutCard(
+                isFavortite: false,
+                sectionTitle: 'Zor Antrenman', // Güncellendi
+                description: 'Açıklama', // Güncellendi
+                imagePath: 'imgs/welcomePageOverlay.png', // Güncellendi
+                cardTitle: 'Zor Antrenman', // Güncellendi
+                filledStars: '4', // Güncellendi
+                timeLeft: '2+', // Güncellendi
+                comments: 'Yorumlar', // Güncellendi
+                durationInMinutes: '12', // Güncellendi
+                hasFreeTrial: 'true', // Güncellendi
+                movesNumber: '10', // Güncellendi
+                priceInDollars: '25,00', // Güncellendi
+                setsNumber: '5', // Güncellendi
+                reviews: 'Değerlendirmeler', // Güncellendi
               ),
             ),
             const SizedBox(

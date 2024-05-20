@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import '../../../../config/text.dart';
@@ -5,14 +7,16 @@ import 'avatar.dart';
 
 class ProfileAndUsername extends StatelessWidget {
   ProfileAndUsername({
-    Key? key,
+    super.key,
     required this.username,
     required this.profileImg,
     this.onProfileImgTap,
-  }) : super(key: key);
+    required this.role,
+  });
 
   String username;
   String profileImg;
+  String role;
   void Function()? onProfileImgTap;
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class ProfileAndUsername extends StatelessWidget {
       children: [
         RichText(
           text: TextSpan(
-            text: AppTexts.hey,
+            text: role == "Antrenor" ? "Antrenör," : AppTexts.hey,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -38,6 +42,9 @@ class ProfileAndUsername extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        const SizedBox(
+          width: 20,
         ),
         Avatar(
           onProfileImgTap: onProfileImgTap,

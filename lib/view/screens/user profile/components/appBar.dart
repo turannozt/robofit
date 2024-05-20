@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:work_out/controller/functionsController.dart';
@@ -9,12 +11,16 @@ import '../../../../helpers/string_methods.dart';
 
 class ProfileAppBar extends StatelessWidget {
   ProfileAppBar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   FunctionsController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leading: IconButton(
+        onPressed: () => Get.back(),
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+      ),
       title: Text(
         capitalize(AppTexts.profile),
         style: const TextStyle(
@@ -30,7 +36,7 @@ class ProfileAppBar extends StatelessWidget {
             builder: (signOutController) {
               return ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                    primary: AppColors.darkBlue, elevation: 0),
+                    backgroundColor: AppColors.darkBlue, elevation: 0),
                 label: Text(
                   capitalize(AppTexts.logOut),
                   style: const TextStyle(color: Colors.red),

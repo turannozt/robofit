@@ -7,8 +7,6 @@ import '../config/text.dart';
 import '../view/screens/homepage/componenets/ItemsSwitchTiles.dart';
 
 class FunctionsController extends GetxController {
-  
-
 // Toggle filter dialog checkboxes
   List filterItems = filtersItemsFromFile;
   toggleValue(bool? val, int index) {
@@ -40,12 +38,10 @@ class FunctionsController extends GetxController {
         .toList();
   }
 
-
-
   // Show filter dialog
 
   void showFilterDialog(BuildContext context) {
-      showDialog(
+    showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -84,6 +80,5 @@ class FunctionsController extends GetxController {
             ],
           );
         });
-          
-  }                 
+  }
 }

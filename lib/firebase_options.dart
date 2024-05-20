@@ -22,8 +22,6 @@ class DefaultFirebaseOptions {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
-      case TargetPlatform.iOS:
-        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -47,29 +45,18 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCJ8g28DTfdDfFCr2CCkyUoZS1qD2dj2fc',
-    appId: '1:657493988993:web:a6e5e9bcfcf010c5f5df80',
-    messagingSenderId: '657493988993',
-    projectId: 'gwhyyworkout',
-    authDomain: 'gwhyyworkout.firebaseapp.com',
-    storageBucket: 'gwhyyworkout.appspot.com',
-  );
+      apiKey: "AIzaSyDnD8KcEFRD6nOfGIv6wM_y5EWOOwZHaj8",
+      authDomain: "fit-app-db.firebaseapp.com",
+      projectId: "fit-app-db",
+      storageBucket: "fit-app-db.appspot.com",
+      messagingSenderId: "758408692884",
+      appId: "1:758408692884:web:fdb74255a5a7f01b712081");
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC_9pZeKJWZizNqHPBRYIXYtWS9wOaWnCM',
-    appId: '1:657493988993:android:a80c74cb823f86acf5df80',
-    messagingSenderId: '657493988993',
-    projectId: 'gwhyyworkout',
-    storageBucket: 'gwhyyworkout.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCe4624TcT-AFy48jr258a0cPuOBJjg6SI',
-    appId: '1:657493988993:ios:cbbaf473f203f3c0f5df80',
-    messagingSenderId: '657493988993',
-    projectId: 'gwhyyworkout',
-    storageBucket: 'gwhyyworkout.appspot.com',
-    iosClientId: '657493988993-plut0km170gtkujhlpu1lb4jtfki9e69.apps.googleusercontent.com',
-    iosBundleId: 'com.workout.workOut',
+    apiKey: 'AIzaSyBQtcfHz54NFqmOc949MYjoHWAJTK_574Q', //
+    appId: '1:758408692884:android:b97538b8330e6123712081', //
+    messagingSenderId: '758408692884', //
+    projectId: 'fit-app-db', //
+    storageBucket: 'fit-app-db.appspot.com', //
   );
 }

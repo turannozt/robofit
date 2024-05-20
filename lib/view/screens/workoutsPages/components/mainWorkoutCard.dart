@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:work_out/controller/functionsController.dart';
@@ -10,7 +12,7 @@ import '../../work out details/workOutDetails.dart';
 
 class MainWorkoutCard extends StatelessWidget {
   MainWorkoutCard({
-    Key? key,
+    super.key,
     this.togglablesIcon = Icons.favorite_outline_outlined,
     required this.hasFreeTrial,
     required this.priceInDollars,
@@ -26,7 +28,7 @@ class MainWorkoutCard extends StatelessWidget {
     required this.description,
     required this.timeLeft,
     required this.isFavortite,
-  }) : super(key: key);
+  });
   IconData togglablesIcon;
   String? imagePath,
       filledStars,
@@ -47,6 +49,7 @@ class MainWorkoutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -78,6 +81,7 @@ class MainWorkoutCard extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
+        
         GestureDetector(
           onTap: () {
             Get.to(() => WorkOutDetails(
@@ -155,6 +159,7 @@ class MainWorkoutCard extends StatelessWidget {
                       ],
                     ),
                   ),
+                  
                   Positioned(
                     top: 30,
                     left: 20,
@@ -166,7 +171,7 @@ class MainWorkoutCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        capitalize("$timeLeft hours"),
+                        capitalize("$timeLeft Saat"),
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -175,6 +180,7 @@ class MainWorkoutCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  
                   Positioned(
                     top: 30,
                     right: 20,

@@ -1,68 +1,70 @@
+// ignore_for_file: file_names
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+
+import 'package:work_out/config/text.dart';
 import 'package:work_out/controller/functionsController.dart';
 import 'package:work_out/controller/functionsController/dialogsAndLoadingController.dart';
-import 'package:work_out/config/text.dart';
 
 import '../../helpers/string_methods.dart';
 
 class ForgotPasswordController extends GetxController {
-  // Dependency injection
+  // Bağımlılık enjeksiyonu
   FunctionsController controller = Get.put(FunctionsController());
   DialogsAndLoadingController dialogsAndLoadingController =
       Get.put(DialogsAndLoadingController());
 
-  // Text Editing controllers
+  // Metin düzenleme denetleyicileri
   late TextEditingController emailToRecoverPassword;
 
-  // Recover password method
+  // Şifreyi kurtarma yöntemi
   recoverPassword(String email) async {
-    // Check if the email is valid
+    // E-postanın geçerli olup olmadığını kontrol et
     bool isValidEmail = emailRegExp.hasMatch(email);
 
-    // if it's valid then
+    // Eğer geçerliyse
 
-    // email != '' is optional but I can't remove it (it's called perfection sickness)
+    // email != '' isteğe bağlıdır, ancak kaldıramam (bu mükemmeliyet sendromuna denir)
     if (isValidEmail && email != '') {
       try {
-        // Show loading dialog
+        // Yükleme ekranını göster
         dialogsAndLoadingController.showLoading();
 
-        // Send request (no need to make independent instance)
+        // İstek gönder (bağımsız bir örnek yapmaya gerek yok)
         await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
-        // On success pop the loading dialog
+        // Başarı durumunda yükleme ekranını kapat
         Get.back();
 
-        // Show success to user
+        // Kullanıcıya başarıyı göster
         dialogsAndLoadingController
             .showSuccess(capitalize(AppTexts.emailVerifSentText));
 
         //
       } on FirebaseAuthException catch (e) {
-        // on error too, pop the loading dialog first
+        // hata durumunda önce yükleme ekranını kapat
         Get.back();
 
-        // Error checks (if you want to be more specific make for each error a case) on this pattern
+        // Hata kontrol (daha spesifik olmak istiyorsanız her hataya özel bir durum yapın) bu modelde
         if (e.code == "user-not-found") {
           dialogsAndLoadingController
               .showError(capitalize(AppTexts.noUserText));
         }
-        // here your checks
+        // burada kendi kontrol ettiğiniz hatalar
         else {
           dialogsAndLoadingController.showError("$e.message");
         }
       }
-      // this is optional
+      // bu isteğe bağlıdır
       catch (e) {
         dialogsAndLoadingController.showError(e.toString());
       }
     }
-    // email checks ()
+    // e-posta kontrolleri ()
     else if (email == "") {
-      dialogsAndLoadingController
-          .showError(capitalize(AppTexts.enterEmail));
+      dialogsAndLoadingController.showError(capitalize(AppTexts.enterEmail));
     } else if (!isValidEmail) {
       dialogsAndLoadingController
           .showError(capitalize(AppTexts.enterValidEmail));
@@ -71,14 +73,14 @@ class ForgotPasswordController extends GetxController {
 
   @override
   void onInit() {
-    // Inputs controllers declarations
+    // Giriş denetleyici beyanları
     emailToRecoverPassword = TextEditingController();
     super.onInit();
   }
 
   @override
   void onClose() {
-    // Inputs controllers disposals
+    // Giriş denetleyici atıkları
     emailToRecoverPassword.dispose();
     super.onClose();
   }

@@ -52,7 +52,7 @@ class EmailVerificatioController extends GetxController {
     if (emailVerifiedAfterReload == true) {
       // Updating in firestore
       await FirebaseFirestore.instance
-          .collection("aboutUsers")
+          .collection("users")
           .doc(user!.uid)
           .update({
         "verified": emailVerifiedAfterReload,

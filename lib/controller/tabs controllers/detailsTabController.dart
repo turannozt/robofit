@@ -3,20 +3,19 @@ import 'package:get/get.dart';
 
 class DetailsTabController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  // TabController
+  // Detaylar sekmesi kontrolcüsü
   late TabController detailsTabController;
 
-  // Tabs to show
+  // Gösterilecek sekmeler
   final List<Tab> detailsTabs = <Tab>[
-    const Tab(text: "Description"),
-    const Tab(text: "Reviews"),
-    const Tab(text: 'Comments'),
+    const Tab(text: "Açıklama"),
+    const Tab(text: "Değerlendirmeler"),
+    const Tab(text: 'Yorumlar'),
   ];
 
   @override
   void onInit() {
-    
-    // init on init hah
+    // onInit metodunda başlatılır
     detailsTabController =
         TabController(vsync: this, length: detailsTabs.length);
     super.onInit();
@@ -24,7 +23,7 @@ class DetailsTabController extends GetxController
 
   @override
   void onClose() {
-    // dispose
+    // Kapatıldığında (dispose)
     detailsTabController.dispose();
     super.onClose();
   }

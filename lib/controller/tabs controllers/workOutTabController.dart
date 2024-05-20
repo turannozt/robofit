@@ -3,29 +3,26 @@ import 'package:get/get.dart';
 
 class CustomTabBarController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  // TabController
+  // Sekme denetleyicisi
   late TabController workOutTabController;
 
-  // Tabs to show
+  // Gösterilecek sekmeler
   final List<Tab> workOutTabs = <Tab>[
-    const Tab(text: "All"),
-    const Tab(text: "Popular"),
-    const Tab(text: 'Hard workout'),
-    const Tab(text: 'Full body'),
-    const Tab(text: 'Crossfit'),
+    const Tab(text: ""),
+ 
   ];
 
   @override
   void onInit() {
-    // init on init hah
+    // onInit metodu başlatılır
     workOutTabController =
         TabController(vsync: this, length: workOutTabs.length);
     super.onInit();
   }
 
   @override
-  void onClose() { 
-    // dispose
+  void onClose() {
+    // Kapatıldığında (dispose)
     workOutTabController.dispose();
     super.onClose();
   }

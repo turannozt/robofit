@@ -1,11 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:work_out/controller/authControllers/sign_up_controller/extensions/create_new_account/create_new_account.dart';
-import 'package:work_out/controller/authControllers/sign_up_controller/extensions/handle_going_to_login_page.dart';
 import 'package:work_out/controller/authControllers/sign_up_controller/sign_up_controller.dart';
 import 'package:work_out/config/Colors.dart';
 import 'package:work_out/config/text.dart';
+import '../../../chat/helper/helper_function.dart';
 import '../../../config/show_delay_mixin.dart';
 import '../../../helpers/string_methods.dart';
 import '../../widgets/general_widgets/button.dart';
@@ -14,6 +16,7 @@ import '../../widgets/general_widgets/screen_background_image.dart';
 import '../../widgets/general_widgets/text field.dart';
 import '../../widgets/general_widgets/titleWithDescription.dart';
 
+//kullanıcı kayıt ol
 class SignUpPage extends GetView<SignUpController> with DelayHelperMixin {
   SignUpPage({super.key});
 
@@ -69,6 +72,14 @@ class SignUpPage extends GetView<SignUpController> with DelayHelperMixin {
                         delay: getDelayDuration(),
                         child: CustomTextField(
                           keyboardType: TextInputType.name,
+                          controller: controller.signUpNameController,
+                          label: capitalize(AppTexts.name),
+                        ),
+                      ),
+                      DelayedDisplay(
+                        delay: getDelayDuration(),
+                        child: CustomTextField(
+                          keyboardType: TextInputType.name,
                           controller: controller.signUpUserController,
                           label: capitalize(AppTexts.username),
                         ),
@@ -96,8 +107,11 @@ class SignUpPage extends GetView<SignUpController> with DelayHelperMixin {
                           DelayedDisplay(
                             delay: getDelayDuration(),
                             child: CustomButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 controller.createNewAccount(
+                                  role: "User",
+                                  name: controller.signUpNameController.text
+                                      .trim(),
                                   email: controller.signUpEmailController.text
                                       .trim(),
                                   password: controller
@@ -106,6 +120,13 @@ class SignUpPage extends GetView<SignUpController> with DelayHelperMixin {
                                   username: controller.signUpUserController.text
                                       .trim(),
                                 );
+                                // saving the shared preference state
+                                await HelperFunctions.saveUserLoggedInStatus(
+                                    true);
+                                await HelperFunctions.saveUserEmailSF(
+                                    controller.signUpEmailController.text);
+                                await HelperFunctions.saveUserNameSF(
+                                    controller.signUpNameController.text);
                               },
                               isRounded: false,
                               text: capitalize(AppTexts.signUp),
@@ -119,7 +140,7 @@ class SignUpPage extends GetView<SignUpController> with DelayHelperMixin {
                             delay: getDelayDuration(),
                             child: GestureDetector(
                               onTap: () {
-                                controller.handleGoingToLoginPage();
+                                Get.toNamed("/login");
                               },
                               child: Text(
                                 capitalize(AppTexts.alreadyHaveAnAccount),

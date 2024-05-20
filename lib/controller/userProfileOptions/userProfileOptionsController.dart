@@ -1,3 +1,4 @@
+// ignore: file_names
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
@@ -18,11 +19,17 @@ class UserProfileOptionsController extends GetxController {
   DialogsAndLoadingController dialogsAndLoadingController =
       Get.put(DialogsAndLoadingController());
   TextEditingController newUserNameController = TextEditingController();
+  TextEditingController newNameController = TextEditingController();
   TextEditingController newEmailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
+
+  //boy kilo yas
+  TextEditingController newBoyController = TextEditingController();
+  TextEditingController newKiloController = TextEditingController();
+  TextEditingController newYasController = TextEditingController();
   late List userProfileOptionsList = [
     {
-      "optionTitle": "change username",
+      "optionTitle": "kullanıcı adı değiştir",
       "optionIcon": Icons.person,
       "optionFunction": () {
         Get.bottomSheet(
@@ -35,13 +42,13 @@ class UserProfileOptionsController extends GetxController {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomTextField(
-                    label: capitalize("new username"),
+                    label: capitalize("Yeni kullanıcı adı"),
                     controller: newUserNameController,
                     keyboardType: TextInputType.text),
                 SizedBox(
                   height: 50,
                   child: CustomButton(
-                      text: capitalize("update"),
+                      text: capitalize("Güncelle"),
                       isOutlined: false,
                       onPressed: () {
                         Get.back();
@@ -57,7 +64,145 @@ class UserProfileOptionsController extends GetxController {
       }
     },
     {
-      "optionTitle": "change profile photo",
+      "optionTitle": "Adınızı Değiştirin",
+      "optionIcon": Icons.edit,
+      "optionFunction": () {
+        Get.bottomSheet(
+          Container(
+            width: double.infinity,
+            height: 200,
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomTextField(
+                    label: capitalize("Yeni Adınız"),
+                    controller: newNameController,
+                    keyboardType: TextInputType.text),
+                SizedBox(
+                  height: 50,
+                  child: CustomButton(
+                      text: capitalize("Güncelle"),
+                      isOutlined: false,
+                      onPressed: () {
+                        Get.back();
+                        userInformationController.role == "Antrenor"
+                            ? userInformationController.updateName(
+                                'Antrenör ${newNameController.text.trim()}')
+                            : userInformationController
+                                .updateName(newNameController.text.trim());
+                      }),
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: Color(0xff131429),
+        );
+      }
+    },
+    {
+      "optionTitle": "Boy, Kilo ve Yaş Güncelle",
+      "optionIcon": Icons.update,
+      "optionFunction": () {
+        Get.bottomSheet(
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                      label: capitalize("Boyunuzu Giriniz"),
+                      controller: newBoyController,
+                      keyboardType: TextInputType.text),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: CustomButton(
+                      text: capitalize("Güncelle"),
+                      isOutlined: false,
+                      onPressed: () {
+                        Get.back();
+                        userInformationController
+                            .updateBoy(newBoyController.text.trim());
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextField(
+                      label: capitalize("Yaşınızı Giriniz"),
+                      controller: newYasController,
+                      keyboardType: TextInputType.text),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: CustomButton(
+                      text: capitalize("Güncelle"),
+                      isOutlined: false,
+                      onPressed: () {
+                        Get.back();
+                        userInformationController
+                            .updateYas(newYasController.text.trim());
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextField(
+                    label: capitalize("Kilonuzu Giriniz"),
+                    controller: newKiloController,
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: CustomButton(
+                      text: capitalize("Güncelle"),
+                      isOutlined: false,
+                      onPressed: () {
+                        Get.back();
+                        userInformationController
+                            .updateKilo(newKiloController.text.trim());
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          backgroundColor: Color(0xff131429),
+        );
+      }
+    },
+    {
+      "optionTitle": "profil resmi",
       "optionIcon": Icons.image,
       "optionFunction": () {
         Get.bottomSheet(
@@ -70,7 +215,7 @@ class UserProfileOptionsController extends GetxController {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    capitalize("Select an image"),
+                    capitalize("Fotoğraf Seç"),
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                   Row(
@@ -109,42 +254,7 @@ class UserProfileOptionsController extends GetxController {
       },
     },
     {
-      "optionTitle": "set a new email adress",
-      "optionIcon": Icons.mail,
-      "optionFunction": () {
-        Get.bottomSheet(
-            Container(
-              width: double.infinity,
-              height: 200,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CustomTextField(
-                      label: capitalize("new email"),
-                      controller: newEmailController,
-                      keyboardType: TextInputType.text),
-                  SizedBox(
-                    height: 50,
-                    child: CustomButton(
-                        text: capitalize("update"),
-                        isOutlined: false,
-                        onPressed: () async {
-                          Get.back();
-
-                          await userInformationController
-                              .updateEmail(newEmailController.text.trim());
-                        }),
-                  )
-                ],
-              ),
-            ),
-            backgroundColor: Color(0xff131429));
-      }
-    },
-    {
-      "optionTitle": "set a new password",
+      "optionTitle": "şifreyi değiştir",
       "optionIcon": Icons.lock,
       "optionFunction": () {
         Get.bottomSheet(
@@ -158,13 +268,13 @@ class UserProfileOptionsController extends GetxController {
                 children: [
                   CustomTextField(
                       obscureText: true,
-                      label: capitalize("new password"),
+                      label: capitalize("Yeni Şifre"),
                       controller: newPasswordController,
                       keyboardType: TextInputType.visiblePassword),
                   SizedBox(
                     height: 50,
                     child: CustomButton(
-                        text: capitalize("update"),
+                        text: capitalize("Güncelle"),
                         isOutlined: false,
                         onPressed: () async {
                           Get.back();
@@ -179,13 +289,12 @@ class UserProfileOptionsController extends GetxController {
       }
     },
     {
-      "optionTitle": "Delete user",
+      "optionTitle": "hesabımı sil",
       "optionIcon": Icons.delete,
       "optionFunction": () {
         dialogsAndLoadingController.showConfirmWithActions(
-          
-            capitalize("are you sure you want to delete your account ?"),
-          capitalize("delete"),
+          capitalize("Hesabın silmek istedğinden emin misin ?"),
+          capitalize("Sil"),
           () {
             Get.back();
             userInformationController.deleteUser();

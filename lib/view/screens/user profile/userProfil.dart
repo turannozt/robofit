@@ -8,14 +8,14 @@ import 'package:work_out/config/text.dart';
 import 'package:work_out/view/widgets/general_widgets/button.dart';
 import '../../../controller/authControllers/signOutController.dart';
 import '../../../controller/userController/userController.dart';
-import '../../../config/UserProfile/userProfil.dart';
 import '../../../helpers/string_methods.dart';
 import 'components/appBar.dart';
 import 'components/stat.dart';
 import 'customizeProfilePage.dart';
 
+//profile
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key}) : super(key: key);
+  const UserProfile({super.key});
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -87,15 +87,31 @@ class _UserProfileState extends State<UserProfile> {
                   delay: Duration(milliseconds: delay + 400),
                   child: Obx(
                     () => DelayedDisplay(
-                      child: Text(
-                        capitalize(
-                          userInformationController.username.value,
-                        ),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            capitalize(
+                              userInformationController.role.value,
+                            ),
+                            style: const TextStyle(
+                              color: Colors.green,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            capitalize(
+                              userInformationController.username.value,
+                            ),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -108,7 +124,7 @@ class _UserProfileState extends State<UserProfile> {
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 40),
                     child: Text(
-                      "this take the place of description, it's not implemented yet like the row below, it's desactivated for now",
+                      "Vücudunuza Yapay Zeka Desteği!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
@@ -125,15 +141,17 @@ class _UserProfileState extends State<UserProfile> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ...List.generate(
-                        UserProfileStats.stats.length,
-                        (i) => Stat(
-                          statValue: 
-                              capitalize(UserProfileStats.stats[i]["value"]),
-                          statTitle: capitalize(
-                            UserProfileStats.stats[i]["title"],
-                          ),
-                        ),
+                      status(
+                        userInformationController.boy.value,
+                        "Boy",
+                      ),
+                      status(
+                        userInformationController.kilo.value,
+                        "Kilo",
+                      ),
+                      status(
+                        userInformationController.yas.value,
+                        "Yaş",
                       ),
                     ],
                   ),
@@ -161,6 +179,28 @@ class _UserProfileState extends State<UserProfile> {
           ],
         ),
       ),
+    );
+  }
+
+  Column status(String veri, String data) {
+    return Column(
+      children: [
+        Text(
+          veri,
+          style: const TextStyle(
+            fontSize: 23,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          data,
+          style: const TextStyle(fontSize: 14, color: Colors.white),
+        ),
+      ],
     );
   }
 }

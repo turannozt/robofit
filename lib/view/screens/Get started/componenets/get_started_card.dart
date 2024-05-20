@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:work_out/controller/functionsController.dart';
 import 'package:work_out/config/Colors.dart';
 
 import '../../../../controller/get_started_controller/get_started_card_controller.dart';

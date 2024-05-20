@@ -1,8 +1,13 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:work_out/Movements/home_page_easy.dart';
+import 'package:work_out/Movements/home_page_hard.dart';
+import 'package:work_out/Movements/home_page_middle.dart';
+import 'package:work_out/admob/service.dart';
 
 import 'package:work_out/controller/functionsController.dart';
+import 'package:work_out/view/screens/homepage/homePage.dart';
 
 import '../../../controller/tabs controllers/detailsTabController.dart';
 import '../../../config/Colors.dart';
@@ -13,7 +18,8 @@ import '../../widgets/general_widgets/actionButton.dart';
 import 'componenets/RatingStars.dart';
 import '../../widgets/general_widgets/button.dart';
 
-class WorkOutDetails extends StatelessWidget {
+//detay
+class WorkOutDetails extends StatefulWidget {
   WorkOutDetails({
     Key? key,
     required this.overlayedImg,
@@ -41,8 +47,21 @@ class WorkOutDetails extends StatelessWidget {
       reviews,
       priceInDollars,
       hasFreeTrial;
+
+  @override
+  State<WorkOutDetails> createState() => _WorkOutDetailsState();
+}
+
+class _WorkOutDetailsState extends State<WorkOutDetails> {
   final DetailsTabController _tabx = Get.put(DetailsTabController());
+
   final FunctionsController _controller = Get.put(FunctionsController());
+  final GoogleAds _googleAds = GoogleAds();
+  @override
+  void initState() {
+    _googleAds.loadInterstitialAd();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +73,7 @@ class WorkOutDetails extends StatelessWidget {
           child: SizedBox(
             width: double.infinity,
             child: Image.asset(
-              overlayedImg,
+              widget.overlayedImg,
               fit: BoxFit.cover,
             ),
           ),
@@ -69,7 +88,7 @@ class WorkOutDetails extends StatelessWidget {
               end: Alignment.topCenter,
               colors: [
                 AppColors.darkBlue,
-                overlayedImg != null
+                widget.overlayedImg != null
                     ? AppColors.darkBlue.withOpacity(0.05)
                     : AppColors.darkBlue.withOpacity(0.8),
               ],
@@ -106,7 +125,7 @@ class WorkOutDetails extends StatelessWidget {
                               size: 16,
                             ),
                             Text(
-                              "$timeLeftInHour ${AppTexts.hours}",
+                              "${widget.timeLeftInHour} ${AppTexts.hours}",
                               style: const TextStyle(color: Colors.white),
                             ),
                           ],
@@ -139,7 +158,7 @@ class WorkOutDetails extends StatelessWidget {
                         children: [
                           RichText(
                             text: TextSpan(
-                                text: movesNumber,
+                                text: widget.movesNumber,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Theme.of(context).primaryColor,
@@ -155,7 +174,7 @@ class WorkOutDetails extends StatelessWidget {
                           ),
                           RichText(
                             text: TextSpan(
-                                text: setsNumber,
+                                text: widget.setsNumber,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Theme.of(context).primaryColor,
@@ -171,7 +190,7 @@ class WorkOutDetails extends StatelessWidget {
                           ),
                           RichText(
                             text: TextSpan(
-                                text: durationInMinutes,
+                                text: widget.durationInMinutes,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Theme.of(context).primaryColor,
@@ -196,7 +215,7 @@ class WorkOutDetails extends StatelessWidget {
                 DelayedDisplay(
                   delay: Duration(milliseconds: delay + 300),
                   child: Text(
-                    capitalize(workOutTitle),
+                    capitalize(widget.workOutTitle),
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -211,7 +230,8 @@ class WorkOutDetails extends StatelessWidget {
                   delay: Duration(milliseconds: delay + 400),
                   child: RatingStars(
                     starsNumber: 5,
-                    filledStars: int.parse(rating != null ? rating : "0"),
+                    filledStars:
+                        int.parse(widget.rating != null ? widget.rating : "0"),
                   ),
                 ),
                 const SizedBox(
@@ -239,7 +259,7 @@ class WorkOutDetails extends StatelessWidget {
                       children: [
                         Center(
                           child: Text(
-                            description,
+                            widget.description,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,
@@ -248,7 +268,7 @@ class WorkOutDetails extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            reviews,
+                            widget.reviews,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,
@@ -257,7 +277,7 @@ class WorkOutDetails extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            comments,
+                            widget.comments,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,
@@ -269,34 +289,69 @@ class WorkOutDetails extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Column(
                   children: [
-                    DelayedDisplay(
-                      delay: Duration(milliseconds: delay + 700),
-                      child: CustomButton(
-                        onPressed: () {},
-                        isRounded: false,
-                        text: capitalize("\$ $priceInDollars"),
-                        isOutlined: false,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
+                    //const SizedBox(height: 10),
                     DelayedDisplay(
                       delay: Duration(milliseconds: delay + 800),
-                      child: CustomButton(
-                        onPressed: () {},
-                        isRounded: false,
-                        text: hasFreeTrial.toLowerCase() == "true"
-                            ? capitalize(AppTexts.freeTrial)
-                            : 
-                                capitalize(AppTexts.noFreeTrialAvailable),
-                        isOutlined: true,
+                      child: GestureDetector(
+                        onTap: () {
+                          _googleAds.showInterstitialAd();
+                        },
+                        child: CustomButton(
+                          onPressed: () {
+                            widget.workOutTitle.toLowerCase() ==
+                                    "kolay antrenman"
+                                ? Get.to(
+                                    const HomePageEasy(),
+                                  )
+                                : Container();
+                            widget.workOutTitle.toLowerCase() ==
+                                    "orta antrenman"
+                                ? Get.to(
+                                    const HomePageMiddle(),
+                                  )
+                                : Container();
+                            widget.workOutTitle.toLowerCase() == "zor antrenman"
+                                ? Get.to(
+                                    const HomePageHard(),
+                                  )
+                                : Container();
+                          },
+                          isRounded: false,
+                          text: widget.workOutTitle.toLowerCase() ==
+                                  "kolay antrenman"
+                              ? capitalize(
+                                  widget.workOutTitle.toLowerCase() ==
+                                          "kolay antrenman"
+                                      ? "Antrenmana Git - Kolay"
+                                      : "Free trial",
+                                )
+                              : widget.workOutTitle.toLowerCase() ==
+                                      "orta antrenman"
+                                  ? capitalize(
+                                      widget.workOutTitle.toLowerCase() ==
+                                              "orta antrenman"
+                                          ? "Antrenmana Git - Orta"
+                                          : "Free trial",
+                                    )
+                                  : widget.workOutTitle.toLowerCase() ==
+                                          "zor antrenman"
+                                      ? capitalize(
+                                          widget.workOutTitle.toLowerCase() ==
+                                                  "zor antrenman"
+                                              ? "Antrenmana Git - Zor"
+                                              : "Free trial",
+                                        )
+                                      : Container(),
+                          isOutlined: true,
+                        ),
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
