@@ -113,9 +113,7 @@ class _HomePageState extends State<HomePage> {
                               userInformationController.userProfileImg.value,
                         ),
                       ),
-                      const SizedBox(
-                        height: 200,
-                      ),
+                      Spacer(),
                       DelayedDisplay(
                         delay: Duration(milliseconds: delay + 200),
                         child: const Row(
@@ -125,11 +123,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       SizedBox(
-                        height: 35,
                         child: DelayedDisplay(
                           delay: Duration(
                             milliseconds: delay + 400,
@@ -169,63 +163,48 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      Column(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          if (_googleAds.bannerAd != null)
-                            SizedBox(
-                              width: 468,
-                              height: 60,
-                              child: AdWidget(ad: _googleAds.bannerAd!),
-                            )
-                          else
-                            Container(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          Column(
                             children: [
-                              Column(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomePageSS(),
-                                        ));
-                                      },
-                                      icon: const Icon(
-                                        Icons.chat_sharp,
-                                        size: 48,
-                                        color: Colors.white,
-                                      )),
-                                  const Text(
-                                    'Grup',
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => const HomePageSS(),
+                                    ));
+                                  },
+                                  icon: const Icon(
+                                    Icons.chat_sharp,
+                                    size: 48,
+                                    color: Colors.white,
+                                  )),
+                              const Text(
+                                'Grup',
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const ChatScreen(),
+                                  ));
+                                },
+                                icon: Image.network(
+                                  'https://cdn.discordapp.com/attachments/1240926161496703046/1242187956505149482/robot.png?ex=664ced2f&is=664b9baf&hm=feacc4a52aa5d9ad7b1a52e8b71d88a0a713fdd26367950e44a299f7cf6e14c6&',
+                                  width: 60,
+                                  height: 60,
+                                  color: Colors.white,
+                                ),
                               ),
-                              Column(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ChatScreen(),
-                                      ));
-                                    },
-                                    icon: Image.network(
-                                      'https://cdn.discordapp.com/attachments/1240926161496703046/1242187956505149482/robot.png?ex=664ced2f&is=664b9baf&hm=feacc4a52aa5d9ad7b1a52e8b71d88a0a713fdd26367950e44a299f7cf6e14c6&',
-                                      width: 60,
-                                      height: 60,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  const Text(
-                                    'RoboFit',
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
-                              ),
+                              const Text(
+                                'RoboFit',
+                                style: TextStyle(color: Colors.white),
+                              )
                             ],
                           ),
                         ],

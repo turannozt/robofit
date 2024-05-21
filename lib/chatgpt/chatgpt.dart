@@ -73,7 +73,9 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    sendMessage('Merhaba Ben Geldim!');
+    sendMessage(
+      'Merhaba Ben Geldim! Ben Bir Sporcuyum Bana Sporcu  Gibi Davran! Kısa Bir Mesajla Karşıla \nAdım:${userInformationController.name}\nBoyum:${userInformationController.boy}\nKilom:${userInformationController.kilo}\nYaşım:${userInformationController.yas}',
+    );
   }
 
   @override
